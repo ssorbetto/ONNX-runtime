@@ -30,7 +30,9 @@ void getAllImageFiles(const std::string &img_dir,
 
 int main(int argc, char **argv) {
   // Create image classifier
-  ImageClassifier ic("../models/image_classifier.onnx");
+  //ImageClassifier ic("../models/best_model.onnx");
+  ImageClassifier ic("../models/best_model_bs1.onnx");
+
 
   // Load images in the input directory
   std::string img_dir("../images/");
@@ -38,18 +40,20 @@ int main(int argc, char **argv) {
   getAllImageFiles(img_dir, img_names);
 
   // Classes
-  std::vector<std::string> classes = {"plane", "car",  "bird", "cat",
-                                      "deer",  "dog",  "frog", "horse",
-                                      "ship",  "truck"};
+  // std::vector<std::string> classes = {"plane", "car",  "bird", "cat",
+  //                                     "deer",  "dog",  "frog", "horse",
+  //                                     "ship",  "truck"};
 
   // Inference using image classifier
-  std::cout << "******* Predicition results below *******" << std::endl;
+  std::cout << "******* Prediction results below *******" << std::endl;
   for (int i = 0; i < int(img_names.size()); ++i) {
     std::string img_path = img_dir + img_names[i];
     std::cout << "Loaded image: " << img_path << std::endl;
-    int cls_idx = ic.Inference(img_path);
-    std::cout << "Predicted class: " << classes[cls_idx] << std::endl
-              << std::endl;
+    std::vector<double> center = ic.Inference(img_path);
+    std::cout << "center - x:" << center[0] << ", y: " << center[1] << std::endl;
+    // std::cout << "idx" << idx << std::endl;
+    // std::cout << "Predicted class: " << classes[cls_idx] << std::endl
+    //           << std::endl;
   }
 
   std::cout << "Successfully performed image classification" << std::endl;

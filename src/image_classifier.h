@@ -69,7 +69,7 @@ class ImageClassifier {
    * @param imageFilepath: path to the image
    * @return the index of the predicted class
    */
-  int Inference(const std::string& imageFilepath);
+  std::vector<double> Inference(const std::string& imageFilepath);
 
  private:
   // ORT Environment
@@ -80,10 +80,12 @@ class ImageClassifier {
 
   // Inputs
   char* mInputName;
+  std::shared_ptr<char> inPtr;
   std::vector<int64_t> mInputDims;
 
   // Outputs
   char* mOutputName;
+  std::shared_ptr<char> outPtr;
   std::vector<int64_t> mOutputDims;
 
   /**
@@ -93,6 +95,16 @@ class ImageClassifier {
    */
   void CreateTensorFromImage(const cv::Mat& img,
                              std::vector<float>& inputTensorValues);
+
+  /**
+   * @brief Preprocess (apply CLAHE) + Create a tensor from an input image
+   * @param img: the input image
+   * @param inputTensorValues: the output tensor
+   */
+  void preProcessImage(const cv::Mat& pilimg, 
+                              std::vector<float>& inputTensorValues);
+
+  std::vector<double> getCenter(std::vector<float>& arr);
 };
 
 #endif  // IMAGE_CLASSIFIER_H_

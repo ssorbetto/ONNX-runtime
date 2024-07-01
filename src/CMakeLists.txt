@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(ONNX_Runtime_Depth_Estimation_EXAMPLE)
-set(CMAKE_CXX_STANDARD 14)
+project(ONNX_Eye)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
 add_executable(image_classifier main.cpp image_classifier.cpp)
